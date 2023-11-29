@@ -6,15 +6,15 @@ import java.util.Scanner;
 import java.util.Set;
 
 public class Agglomeration {
-	private String[] cities;
-	protected boolean[][] routes;
+	protected int[] cities;
+	protected boolean[][] routes; 
 	protected Set<Integer> rechargeZones = new HashSet<>(); // a set that contains the indexes of cities that have a charging point
 	Scanner scanner = new Scanner(System.in); // private???
 	
 	public Agglomeration(int numberOfCities) {
-		this.cities = new String[numberOfCities];
+		this.cities = new int[numberOfCities];
 		for (int i = 0; i < numberOfCities; i++) {
-			cities[i] = "C" + i;
+			cities[i] = i; // a better way to do this?
 		}
 		this.routes = new boolean[numberOfCities][numberOfCities]; // array is automatically Initialized to false
 		// naive approach: there is a charging point in every city
@@ -30,9 +30,9 @@ public class Agglomeration {
 		showCities();
 		try {
 			System.out.print("Index of the first city = ");
-			indexOfCity1 = Integer.parseInt(scanner.nextLine());
+			indexOfCity1 = Integer.parseInt(scanner.nextLine()); // check that the value entered by the user is a valid int
 			System.out.print("Index of the second city = ");
-			indexOfCity2 = Integer.parseInt(scanner.nextLine());
+			indexOfCity2 = Integer.parseInt(scanner.nextLine()); // check that the value entered by the user is a valid int
 			if(!ValueRange.of(0, cities.length-1).isValidIntValue(indexOfCity1) || !ValueRange.of(0, cities.length-1).isValidIntValue(indexOfCity2)) {
 				System.out.println("*****ERROR*****\nInvalid city index.\nIt doesn't correspond to an index of a city that exists in the list of cities.\n***************");
 			} else if (indexOfCity1 == indexOfCity2) {
@@ -49,7 +49,7 @@ public class Agglomeration {
 	public void showCities() {
 		System.out.println("List of cities:");
 		for (int i = 0; i < cities.length; i++)
-			System.out.print(cities[i] + " ");
+			System.out.print("C" + cities[i] + " "); // a better way to do it?
 		System.out.println("");
 	}
 	
@@ -57,7 +57,7 @@ public class Agglomeration {
 		System.out.println("List of routes:");
 		for (int i = 0; i < cities.length; i++) {
 			for (int j = i + 1; j < cities.length; j++) {
-				if ((routes[i][j] == true)) System.out.println("(C" + i + ", C" + j + ")");
+				if ((routes[i][j] == true)) System.out.println("C" + i + ", C" + j);
 			}
 		}
 	}
@@ -68,8 +68,6 @@ public class Agglomeration {
 	}
 	
 	public int getNumberOfCities() {
-		return cities.length;
+		return this.cities.length;
 	}
-	
-	
 }

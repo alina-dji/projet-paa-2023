@@ -14,7 +14,7 @@ public class Recharge {
 		int indexOfCity = -1;
 		System.out.println("Please enter the index of the city where the charging post needs to be installed");
 		agg.showCities();
-		indexOfCity = getCityIndex(agg, indexOfCity);
+		indexOfCity = scanCityIndex(agg, indexOfCity);
 		if(indexOfCity == -1) return;
 		if(!agg.rechargeZones.add(indexOfCity)) {
 			// will only be added in the set if it doesn't exist already
@@ -27,12 +27,13 @@ public class Recharge {
 		int indexOfCity = -1;
 		System.out.println("Please enter the index of the city you want to remove the charging point from.");
 		agg.showCities();
-		indexOfCity = getCityIndex(agg, indexOfCity); 
-		if(indexOfCity == -1) return;
+		indexOfCity = scanCityIndex(agg, indexOfCity); 
+		if(indexOfCity == -1) return; // if the city index is invalid the deletion operation is not performed
 		agg.rechargeZones.remove(indexOfCity);
 		if(checkAccessibility(agg) == false) {
-			System.out.println("Charging point can't be removed from this city.");
+			// if nonCoveredZones is not empty aka there are cities that are not covered
 			agg.rechargeZones.add(indexOfCity);
+			System.out.println("Charging point can't be removed from this city.");
 		} else {
 			System.out.println("Charging point removed from city C" + indexOfCity);
 		}
@@ -40,32 +41,33 @@ public class Recharge {
 	}
 	
 	private static boolean checkAccessibility(Agglomeration agg) {
-		Set<Integer> coveredZones = new HashSet<>(); // Set of cities that have access to a charging point directly or indirectly
-		coveredZones.addAll(agg.rechargeZones);
-		Iterator<Integer> cz = coveredZones.iterator();
-		while (cz.hasNext()) {
-			Integer zoneIndex = cz.next();
+		Set<Integer> coveredZones = new HashSet<>(agg.rechargeZones); // Set of cities that have access to a charging point
+		Iterator<Integer> rz = agg.rechargeZones.iterator();
+		while (rz.hasNext()) {
+			Integer zoneIndex = rz.next();
 			for(int i = 0; i < agg.getNumberOfCities(); i++) {
 				if(agg.routes[zoneIndex][i] == true) {
 					coveredZones.add(i);
 				}
 			}
-			cz = coveredZones.iterator();
 		}
-		Set<Integer> cityIndexes = new HashSet<>();
+		// creating a set that contains the indexes of non covered cities
+		Set<Integer> nonCoveredZones = new HashSet<>();
 		for(int i = 0; i < agg.getNumberOfCities(); i++) {
-			cityIndexes.add(i);
+			nonCoveredZones.add(i);
 		}
-		Set<Integer> nonCoveredZones = new HashSet<>(cityIndexes);
 		nonCoveredZones.removeAll(coveredZones);
+		System.out.println(coveredZones);
+		System.out.println(nonCoveredZones);
 		if(!nonCoveredZones.isEmpty()) {
-			System.out.println("The following cities don't have access to a charging zone");
+			System.out.println("The following cities don't have access to a charging point");
 			System.out.println(nonCoveredZones);
 		}
-		return coveredZones.equals(cityIndexes);
+		
+		return nonCoveredZones.isEmpty();
 	}
-	
-	private static int getCityIndex(Agglomeration agg, int index) {
+
+	private static int scanCityIndex(Agglomeration agg, int index) {
 		try {
 			index = Integer.parseInt(scanner.nextLine());
 			if(ValueRange.of(0, agg.getNumberOfCities()-1).isValidIntValue(index)) {
