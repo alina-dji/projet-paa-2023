@@ -9,7 +9,8 @@ import java.util.Set;
 
 public class AgglomerationFileParser {
 	
-	public static void parseFile(String path) {
+	public static Agglomeration parseFile(String path) {
+		Agglomeration agg = null;
 		Set<String> cities = new HashSet<>();
 		Set<String> routes = new HashSet<>();
 		Set<String> recharges = new HashSet<>();
@@ -26,26 +27,31 @@ public class AgglomerationFileParser {
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
+		return agg;
     }
 	
 	public static String[] parseLine(String line) {
-		int endOfCities = 0;
-		int endOfRoutes = -1;
+		int citiesFlag = 0;
+		int routesFlag = -1;
+		int rechargesFlag = -1;
 		String[] data = new String[2];
 		Set<String> cities = new HashSet<>();
 		
-		if(line.matches("/ville\\(\\X+\\)./gm") && endOfCities != -1 ) {
+		if(line.matches("/ville\\(\\X+\\)./gm") && citiesFlag != -1 ) {
 			data[0] = "city";
 			data[1] = extractCity(line);
 			cities.add(data[1]);
-			endOfRoutes = 0;
-		} else if(line.matches("/route\\(\\X+, \\X+\\)./gm") && endOfRoutes != -1) {
-			endOfCities = -1;
+			routesFlag = 0;
+			rechargesFlag = 0;
+		} else if(line.matches("/route\\(\\X+, \\X+\\)./gm") && routesFlag != -1) {
+			citiesFlag = -1;
 			data[0] = "route";
 			data[1] = extractRoute(line, cities);
-		} else if(line.matches("/recharge\\(\\X+\\)./gm")) {
-			endOfRoutes = -1;
+		} else if(line.matches("/recharge\\(\\X+\\)./gm") && rechargesFlag != -1) {
+			routesFlag = -1;
 			extractRecharge(line, cities);
+		} else {
+			// throw IllegalDataFormatting 
 		}
 		
 		return data;
