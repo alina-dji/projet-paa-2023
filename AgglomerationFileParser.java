@@ -26,7 +26,12 @@ public class AgglomerationFileParser {
 	        reader.close();
 		} catch(IOException e) {
 			e.printStackTrace();
+			e.getMessage();
+			e.toString();
 		}
+		System.out.println(cities);
+		System.out.println(routes);
+		System.out.println(recharges);
 		return agg;
     }
 	
@@ -37,21 +42,23 @@ public class AgglomerationFileParser {
 		String[] data = new String[2];
 		Set<String> cities = new HashSet<>();
 		
-		if(line.matches("/ville\\(\\X+\\)./gm") && citiesFlag != -1 ) {
+		if(line.matches("ville\\(\\X+\\).") && citiesFlag != -1 ) {
 			data[0] = "city";
 			data[1] = extractCity(line);
 			cities.add(data[1]);
 			routesFlag = 0;
 			rechargesFlag = 0;
-		} else if(line.matches("/route\\(\\X+, \\X+\\)./gm") && routesFlag != -1) {
+		} else if(line.matches("route\\(\\X+, \\X+\\).") && routesFlag != -1) {
 			citiesFlag = -1;
 			data[0] = "route";
 			data[1] = extractRoute(line, cities);
-		} else if(line.matches("/recharge\\(\\X+\\)./gm") && rechargesFlag != -1) {
+		} else if(line.matches("recharge\\(\\X+\\).") && rechargesFlag != -1) {
 			routesFlag = -1;
-			extractRecharge(line, cities);
+			data[0] = "recharge";
+			data[1] = extractRecharge(line, cities);
 		} else {
-			// throw IllegalDataFormatting 
+			// throw IllegalDataFormattingException
+			System.out.println("IllegalDataFormattingException");
 		}
 		
 		return data;
@@ -70,6 +77,8 @@ public class AgglomerationFileParser {
 			route = line.substring(line.indexOf('('), line.indexOf(')') + 1);
 		} else {
 			// throw CityNotFoundException
+			System.out.println("CityNotFoundException");
+			
 		}
 		return route;
 	}
@@ -81,6 +90,7 @@ public class AgglomerationFileParser {
 			recharge = line.substring(line.indexOf('(') + 1, line.indexOf(')'));
 		} else {
 			// throw CityNotFoundException
+			System.out.println("CityNotFoundException");
 		}
 		return recharge;
 	}
