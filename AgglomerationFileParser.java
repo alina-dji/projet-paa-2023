@@ -9,19 +9,27 @@ import java.util.Set;
 
 public class AgglomerationFileParser {
 	
+	private static Agglomeration agg = null;
+	
+	private static int citiesFlag = 0;
+	private static int routesFlag = -1;
+	private static int rechargesFlag = -1;
+	
+	private static Set<String> cities = new HashSet<>();
+	private static Set<String> routes = new HashSet<>();
+	private static Set<String> recharges = new HashSet<>();
+	
 	public static Agglomeration parseFile(String path) {
-		Agglomeration agg = null;
-		Set<String> cities = new HashSet<>();
-		Set<String> routes = new HashSet<>();
-		Set<String> recharges = new HashSet<>();
+		
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(path));
 	        String line;
 	        while ((line = reader.readLine()) != null) {
-	        	String[] data = parseLine(line);
+	        	parseLine(line);
+	        	/*String[] data = parseLine(line);
 	        	if(data[0] == "city") cities.add(data[1]);
 	        	else if(data[0] == "route") routes.add(data[1]);
-	        	else if(data[0] == "recharge") recharges.add(data[1]);	
+	        	else if(data[0] == "recharge") recharges.add(data[1]);*/
 	        }
 	        reader.close();
 		} catch(IOException e) {
@@ -35,33 +43,33 @@ public class AgglomerationFileParser {
 		return agg;
     }
 	
-	public static String[] parseLine(String line) {
-		int citiesFlag = 0;
-		int routesFlag = -1;
-		int rechargesFlag = -1;
-		String[] data = new String[2];
-		Set<String> cities = new HashSet<>();
+	public static void parseLine(String line) {
+		
+		//String[] data = new String[2];
 		
 		if(line.matches("ville\\(\\X+\\).") && citiesFlag != -1 ) {
-			data[0] = "city";
-			data[1] = extractCity(line);
-			cities.add(data[1]);
+			//data[0] = "city";
+			//data[1] = extractCity(line);
+			//cities.add(data[1]);
+			cities.add(extractCity(line));
 			routesFlag = 0;
 			rechargesFlag = 0;
 		} else if(line.matches("route\\(\\X+, \\X+\\).") && routesFlag != -1) {
 			citiesFlag = -1;
-			data[0] = "route";
-			data[1] = extractRoute(line, cities);
+			//data[0] = "route";
+			//data[1] = extractRoute(line, cities);
+			routes.add(extractRoute(line, cities));
 		} else if(line.matches("recharge\\(\\X+\\).") && rechargesFlag != -1) {
 			routesFlag = -1;
-			data[0] = "recharge";
-			data[1] = extractRecharge(line, cities);
+			//data[0] = "recharge";
+			//data[1] = extractRecharge(line, cities);
+			recharges.add(extractRecharge(line, cities));
 		} else {
 			// throw IllegalDataFormattingException
 			System.out.println("IllegalDataFormattingException");
 		}
 		
-		return data;
+		//return data;
 	}
 	
 	public static String extractCity(String line) {

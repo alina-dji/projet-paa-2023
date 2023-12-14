@@ -46,7 +46,7 @@ public class Recharge {
 		while (rz.hasNext()) {
 			Integer zoneIndex = rz.next();
 			for(int i = 0; i < agg.getNumberOfCities(); i++) {
-				if(agg.routes[zoneIndex][i] == true) {
+				if(agg.rts[zoneIndex][i] == true) {
 					coveredZones.add(i);
 				}
 			}
