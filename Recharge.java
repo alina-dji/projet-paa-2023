@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.Iterator;
-
+//TODO: class not working, needs to be fixed
 // Recharge is a utility class
 public class Recharge {
 	private static Scanner scanner = new Scanner(System.in);
@@ -13,20 +13,20 @@ public class Recharge {
 	public static void addRechargePoint(Agglomeration agg) {
 		int indexOfCity = -1;
 		System.out.println("Please enter the index of the city where the charging post needs to be installed");
-		agg.showCities();
+		agg.printCities();
 		indexOfCity = scanCityIndex(agg, indexOfCity);
 		if(indexOfCity == -1) return;
 		if(!agg.rechargeZones.add(indexOfCity)) {
 			// will only be added in the set if it doesn't exist already
 			System.out.println("A charging point already exists in this city.");
 		}
-		agg.showRechargeZones();
+		agg.printRechargeZones();
 	}
 	
 	public static void deleteRechargePoint(Agglomeration agg) {
 		int indexOfCity = -1;
 		System.out.println("Please enter the index of the city you want to remove the charging point from.");
-		agg.showCities();
+		agg.printCities();
 		indexOfCity = scanCityIndex(agg, indexOfCity); 
 		if(indexOfCity == -1) return; // if the city index is invalid the deletion operation is not performed
 		agg.rechargeZones.remove(indexOfCity);
@@ -37,7 +37,7 @@ public class Recharge {
 		} else {
 			System.out.println("Charging point removed from city C" + indexOfCity);
 		}
-		agg.showRechargeZones();
+		agg.printRechargeZones();
 	}
 	
 	private static boolean checkAccessibility(Agglomeration agg) {
@@ -46,7 +46,7 @@ public class Recharge {
 		while (rz.hasNext()) {
 			Integer zoneIndex = rz.next();
 			for(int i = 0; i < agg.getNumberOfCities(); i++) {
-				if(agg.rts[zoneIndex][i] == true) {
+				if(agg.routesMatrix[zoneIndex][i] == true) {
 					coveredZones.add(i);
 				}
 			}

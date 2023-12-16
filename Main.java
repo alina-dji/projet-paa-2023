@@ -1,7 +1,7 @@
 package up.mi.ald.root;
 
 import java.util.Scanner;
-
+//TODO: class not working, needs to be fixed
 public class Main {
 
 	public static void main(String[] args) {
@@ -39,7 +39,7 @@ public class Main {
 					agg.addRoutes();
 					break;
 				case 2:
-					agg.showRoutes();
+					agg.printRoutes();
 					break;
 				case 0:
 					break;
@@ -66,7 +66,7 @@ public class Main {
 					Recharge.deleteRechargePoint(agg);
 					break;
 				case 3:
-					agg.showRechargeZones();
+					agg.printRechargeZones();
 					break;
 				case 0:
 					break;

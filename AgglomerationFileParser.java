@@ -26,50 +26,31 @@ public class AgglomerationFileParser {
 	        String line;
 	        while ((line = reader.readLine()) != null) {
 	        	parseLine(line);
-	        	/*String[] data = parseLine(line);
-	        	if(data[0] == "city") cities.add(data[1]);
-	        	else if(data[0] == "route") routes.add(data[1]);
-	        	else if(data[0] == "recharge") recharges.add(data[1]);*/
 	        }
+	        agg = new Agglomeration(cities, routes, recharges);
 	        reader.close();
 		} catch(IOException e) {
 			e.printStackTrace();
-			e.getMessage();
-			e.toString();
 		}
-		System.out.println(cities);
-		System.out.println(routes);
-		System.out.println(recharges);
 		return agg;
     }
 	
 	public static void parseLine(String line) {
-		
-		//String[] data = new String[2];
-		
+		// TODO: edit regex to only accept names of cities that contain letters and the - character
 		if(line.matches("ville\\(\\X+\\).") && citiesFlag != -1 ) {
-			//data[0] = "city";
-			//data[1] = extractCity(line);
-			//cities.add(data[1]);
 			cities.add(extractCity(line));
 			routesFlag = 0;
 			rechargesFlag = 0;
 		} else if(line.matches("route\\(\\X+, \\X+\\).") && routesFlag != -1) {
 			citiesFlag = -1;
-			//data[0] = "route";
-			//data[1] = extractRoute(line, cities);
 			routes.add(extractRoute(line, cities));
 		} else if(line.matches("recharge\\(\\X+\\).") && rechargesFlag != -1) {
 			routesFlag = -1;
-			//data[0] = "recharge";
-			//data[1] = extractRecharge(line, cities);
 			recharges.add(extractRecharge(line, cities));
 		} else {
 			// throw IllegalDataFormattingException
 			System.out.println("IllegalDataFormattingException");
 		}
-		
-		//return data;
 	}
 	
 	public static String extractCity(String line) {

@@ -10,6 +10,9 @@ public class Test {
         System.out.println(city1);
         System.out.println(city2);*/
 		Agglomeration agg = AgglomerationFileParser.parseFile("C:\\Users\\dell\\eclipse-workspace\\projet-paa-2023\\src\\up\\mi\\ald\\root\\aggdata.txt");
+		agg.printCities();
+		agg.printRoutes();
+		agg.printRechargeZones();
 		
     }
 }
