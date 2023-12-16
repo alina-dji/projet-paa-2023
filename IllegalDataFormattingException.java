@@ -1,5 +1,5 @@
 package up.mi.ald.root;
 
-public class IllegalDataFormattingException {
+public class IllegalDataFormattingException extends Exception {
 
 }

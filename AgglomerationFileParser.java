@@ -19,7 +19,7 @@ public class AgglomerationFileParser {
 	private static Set<String> routes = new HashSet<>();
 	private static Set<String> recharges = new HashSet<>();
 	
-	public static Agglomeration parseFile(String path) {
+	public static Agglomeration parseFile(String path) throws IllegalDataFormattingException, CityNotFoundException {
 		
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(path));
@@ -35,7 +35,7 @@ public class AgglomerationFileParser {
 		return agg;
     }
 	
-	public static void parseLine(String line) {
+	public static void parseLine(String line) throws IllegalDataFormattingException, CityNotFoundException {
 		// TODO: edit regex to only accept names of cities that contain letters and the - character
 		if(line.matches("ville\\(\\X+\\).") && citiesFlag != -1 ) {
 			cities.add(extractCity(line));
@@ -48,8 +48,8 @@ public class AgglomerationFileParser {
 			routesFlag = -1;
 			recharges.add(extractRecharge(line, cities));
 		} else {
-			// throw IllegalDataFormattingException
-			System.out.println("IllegalDataFormattingException");
+			throw new IllegalDataFormattingException();
+			//System.out.println("IllegalDataFormattingException");
 		}
 	}
 	
@@ -58,28 +58,28 @@ public class AgglomerationFileParser {
 		return city;
 	}
 	
-	public static String extractRoute(String line, Set<String> cities) {
+	public static String extractRoute(String line, Set<String> cities) throws CityNotFoundException {
 		String route = null;
 		boolean cityOneExists = cities.contains(line.substring(line.indexOf('(') + 1, line.indexOf(',')));
 		boolean cityTwoExists = cities.contains(line.substring(line.indexOf(',') + 2, line.indexOf(')')));
 		if (cityOneExists && cityTwoExists) {
 			route = line.substring(line.indexOf('('), line.indexOf(')') + 1);
 		} else {
-			// throw CityNotFoundException
-			System.out.println("CityNotFoundException");
+			throw new CityNotFoundException();
+			//System.out.println("CityNotFoundException");
 			
 		}
 		return route;
 	}
 	
-	public static String extractRecharge(String line, Set<String> cities) {
+	public static String extractRecharge(String line, Set<String> cities) throws CityNotFoundException {
 		String recharge = null;
 		boolean cityExists = cities.contains(line.substring(line.indexOf('(') + 1, line.indexOf(')')));
 		if(cityExists) {
 			recharge = line.substring(line.indexOf('(') + 1, line.indexOf(')'));
 		} else {
-			// throw CityNotFoundException
-			System.out.println("CityNotFoundException");
+			throw new CityNotFoundException();
+			//System.out.println("CityNotFoundException");
 		}
 		return recharge;
 	}
