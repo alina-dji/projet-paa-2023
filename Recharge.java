@@ -40,7 +40,7 @@ public class Recharge {
 		agg.printRechargeZones();
 	}
 	
-	private static boolean checkAccessibility(Agglomeration agg) {
+	/*private static boolean checkAccessibility(Agglomeration agg) {
 		Set<Integer> coveredZones = new HashSet<>(agg.rechargeZones); // Set of cities that have access to a charging point
 		Iterator<Integer> rz = agg.rechargeZones.iterator();
 		while (rz.hasNext()) {
@@ -65,8 +65,9 @@ public class Recharge {
 		}
 		
 		return nonCoveredZones.isEmpty();
-	}
-
+	}*/
+	
+	//TODO: this method goes in the Scanner class
 	private static int scanCityIndex(Agglomeration agg, int index) {
 		try {
 			index = Integer.parseInt(scanner.nextLine());

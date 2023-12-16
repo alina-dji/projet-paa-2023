@@ -69,7 +69,7 @@ public class Agglomeration {
 	}
 	
 	private String[] createCitiesIndex() {
-		String[] citiesIndex = (String[])cities.toArray();
+		String[] citiesIndex = Arrays.copyOf(cities.toArray(), numberOfCities, String[].class);
 		return citiesIndex;
 	}
 	
@@ -82,7 +82,7 @@ public class Agglomeration {
 			zoneIndex++;
 			for(int i = 0; i < numberOfCities; i++) {
 				if(routesMatrix[zoneIndex][i] == true) {
-					coveredZones.add(citiesIndex[i]);
+					coveredZones.add((String)citiesIndex[i]);
 				}
 			}
 		}

@@ -1,3 +1,4 @@
+route(A, B).
 ville(A).
 ville(B).
 ville(C).
