@@ -1,5 +1,7 @@
 package up.mi.ald.root;
 
+import java.io.IOException;
+
 public class Test {
 	public static void main(String[] args) {
 		Agglomeration agg;
@@ -8,9 +10,12 @@ public class Test {
 			agg.printCities();
 			agg.printRoutes();
 			agg.printRechargeZones();
-		} catch (IllegalDataFormattingException | CityNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (IllegalDataFormattingException idfe) {
+			idfe.printStackTrace();
+		} catch (CityNotFoundException cnfe) {
+			cnfe.printStackTrace();
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
 		}
     }
 }

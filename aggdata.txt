@@ -7,7 +7,6 @@ ville(F).
 ville(G).
 ville(H).
 route(A, B).
-route(A, K).
 route(A, D).
 route(B, C).
 route(B, H).
@@ -15,5 +14,6 @@ route(C, D).
 route(D, E).
 route(E, F).
 route(E, G).
+ville(K).
 recharge(A).
 recharge(K).

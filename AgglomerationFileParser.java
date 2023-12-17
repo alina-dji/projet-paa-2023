@@ -19,23 +19,20 @@ public class AgglomerationFileParser {
 	private static Set<String> routes = new HashSet<>();
 	private static Set<String> recharges = new HashSet<>();
 	
-	public static Agglomeration parseFile(String path) throws IllegalDataFormattingException, CityNotFoundException {
-		
-		try {
-			BufferedReader reader = new BufferedReader(new FileReader(path));
-	        String line;
-	        while ((line = reader.readLine()) != null) {
-	        	parseLine(line);
-	        }
-	        agg = new Agglomeration(cities, routes, recharges);
-	        reader.close();
-		} catch(IOException e) {
-			e.printStackTrace();
+	public static Agglomeration parseFile(String path) throws IllegalDataFormattingException, CityNotFoundException, IOException {
+		BufferedReader reader = new BufferedReader(new FileReader(path));
+		String line;
+		int lineNumber = 0;
+		while ((line = reader.readLine()) != null) {
+			lineNumber++;
+			parseLine(line, lineNumber);
 		}
+		agg = new Agglomeration(cities, routes, recharges);
+		reader.close();
 		return agg;
     }
 	
-	public static void parseLine(String line) throws IllegalDataFormattingException, CityNotFoundException {
+	public static void parseLine(String line, int lineNumber) throws IllegalDataFormattingException, CityNotFoundException {
 		// TODO: edit regex to only accept names of cities that contain letters and the - character
 		if(line.matches("ville\\(\\X+\\).") && citiesFlag != -1 ) {
 			cities.add(extractCity(line));
@@ -48,8 +45,7 @@ public class AgglomerationFileParser {
 			routesFlag = -1;
 			recharges.add(extractRecharge(line, cities));
 		} else {
-			throw new IllegalDataFormattingException();
-			//System.out.println("IllegalDataFormattingException");
+			throw new IllegalDataFormattingException("Your data is incorrectly formatted at line " + lineNumber);
 		}
 	}
 	
@@ -65,9 +61,7 @@ public class AgglomerationFileParser {
 		if (cityOneExists && cityTwoExists) {
 			route = line.substring(line.indexOf('('), line.indexOf(')') + 1);
 		} else {
-			throw new CityNotFoundException();
-			//System.out.println("CityNotFoundException");
-			
+			throw new CityNotFoundException(line + " can't be added because one or both cities of your route don't exist");
 		}
 		return route;
 	}
@@ -78,8 +72,7 @@ public class AgglomerationFileParser {
 		if(cityExists) {
 			recharge = line.substring(line.indexOf('(') + 1, line.indexOf(')'));
 		} else {
-			throw new CityNotFoundException();
-			//System.out.println("CityNotFoundException");
+			throw new CityNotFoundException(line + " can't be added to a city that does not exist");
 		}
 		return recharge;
 	}
