@@ -1,0 +1,13 @@
+◾MARDI 19/12
+  ▫Test createRoutesMatrix() and createCitiesIndex() in Agglomeration.java 
+  ▫Scanner.java 
+  ▫CLI.java 
+  ▫Recharge.java
+  ▫saveRechargeSolution() method in Recharge.java
+  ▫Add more aggdata.txt files for testing different scenarios
+◾JEUDI 21/12
+  ▫Implement automatic solution algorithm in Recharge.java
+◾VENDREDI 22/12
+  ▫Main.java and test everything
+  ▫javadoc
+  ▫readme.md
