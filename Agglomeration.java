@@ -15,20 +15,6 @@ public class Agglomeration {
 	private boolean[][] routesMatrix;
 	private String[] citiesIndex;
 	
-	// this constructor is used when the user only gives the number of cities without names
-	public Agglomeration(int numberOfCities) {
-		this.numberOfCities = numberOfCities;
-		for (int i = 0; i < numberOfCities; i++) {
-			cities.add("C" + i);
-		}
-		this.routesMatrix = createRoutesMatrix();
-		citiesIndex = createCitiesIndex();
-		// naive approach: there is a charging point in every city
-		for(int i = 0; i < numberOfCities; i++) {
-			rechargeZones.addAll(cities);
-		}	
-	}
-	
 	public Agglomeration(Set<String> cities, Set<String> routes, Set<String> rechargeZones) {
 		this.cities = cities;
 		this.routes = routes;
