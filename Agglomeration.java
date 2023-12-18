@@ -24,6 +24,7 @@ public class Agglomeration {
 		this.routesMatrix = createRoutesMatrix();
 	}
 	
+	// will probably remove addCity method
 	public void addCity(String city) {
 		cities.add(city);
 		numberOfCities++;
@@ -31,14 +32,15 @@ public class Agglomeration {
 		routesMatrix = createRoutesMatrix();
 	}
 	
+	// will probably remove addRoute method
 	public void addRoute(String route) throws IllegalDataFormattingException {
 		if (route.matches("(\\X+, \\X+)")) {
+			//before adding route check if cities exist
 			routes.add(route);
 			this.routesMatrix = createRoutesMatrix();
 		} else {
 			throw new IllegalDataFormattingException("A route should be formatted like this: (city1, city2)");
 		}
-		
 	}
 	
 	public void addRecharge(String rechargeZone) throws CityNotFoundException {

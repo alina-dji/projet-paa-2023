@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Main {
 
 	public static void main(String[] args) {
-		System.out.println("----- Projet Bornes de Recharge Phase1 -----");
+		System.out.println("----- Projet Bornes de Recharge -----");
 		System.out.println("Lina Djihane AZIZA, Suntanqing FU");
 		
 		Scanner scanner = new Scanner(System.in);

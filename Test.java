@@ -1,10 +1,9 @@
 package up.mi.ald.root;
 
-import java.io.IOException;
-
 public class Test {
 	public static void main(String[] args) {
-		Agglomeration agg;
+		
+		/*Agglomeration agg;
 		try {
 			agg = AgglomerationFileParser.parseFile("C:\\Users\\dell\\eclipse-workspace\\projet-paa-2023\\src\\up\\mi\\ald\\root\\aggdata.ca");
 			agg.printCities();
@@ -17,7 +16,7 @@ public class Test {
 			cnfe.printStackTrace();
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
-		}
+		}*/
 		//TODO add more .ca files for testing different scenarios
 		
     }
