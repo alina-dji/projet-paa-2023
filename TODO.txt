@@ -1,6 +1,6 @@
 ◾LUNDI 18/12
  ▫Test createRoutesMatrix() and createCitiesIndex() in Agglomeration.java ✅
- ▫Edit addRoute() and addRecharge() in Agglomeration.java
+ ▫Edit addRoute() and addRecharge() in Agglomeration.java ✅
 ◾MARDI 19/12
   ▫Scanner.java 
   ▫CLI.java 

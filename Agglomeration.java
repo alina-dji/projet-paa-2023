@@ -11,7 +11,7 @@ public class Agglomeration {
 	private Set<String> routes = new HashSet<>();
 	private Set<String> rechargeZones = new HashSet<>();
 	
-	int numberOfCities;
+	private int numberOfCities; // !!! may remove if not useful
 	private boolean[][] routesMatrix;
 	private String[] citiesIndex;
 	
@@ -45,15 +45,22 @@ public class Agglomeration {
 		routesMatrix = createRoutesMatrix();
 	}
 	
-	//TODO check if route is a valid route else throw IllegalDataFormattingException
-	public void addRoute(String route) {
-		routes.add(route);
-		this.routesMatrix = createRoutesMatrix();
+	public void addRoute(String route) throws IllegalDataFormattingException {
+		if (route.matches("(\\X+, \\X+)")) {
+			routes.add(route);
+			this.routesMatrix = createRoutesMatrix();
+		} else {
+			throw new IllegalDataFormattingException("A route should be formatted like this: (city1, city2)");
+		}
+		
 	}
 	
-	//TODO check if rechargeZone is a city that does exist else throw CityNotFoundException
-	public void addRecharge(String rechargeZone) {
-		rechargeZones.add(rechargeZone);
+	public void addRecharge(String rechargeZone) throws CityNotFoundException {
+		if (cities.contains(rechargeZone)) {
+			rechargeZones.add(rechargeZone);
+		} else {
+			throw new CityNotFoundException(rechargeZone + " does not exist");
+		}	
 	}
 	
 	private boolean[][] createRoutesMatrix() {
@@ -74,7 +81,7 @@ public class Agglomeration {
 		return citiesIndex;
 	}
 	
-	//TODO edit this method so that it doesn't print messages
+	//TODO edit this method so that it doesn't print messages and returns list of nonCoveredZones
 	public boolean checkAccessibility() {
 		Set<String> coveredZones = new HashSet<>(rechargeZones); // Set of cities that have access to a charging point
 		Iterator<String> rz = rechargeZones.iterator();
@@ -83,7 +90,7 @@ public class Agglomeration {
 			zoneIndex++;
 			for(int i = 0; i < numberOfCities; i++) {
 				if(routesMatrix[zoneIndex][i] == true) {
-					coveredZones.add((String)citiesIndex[i]);
+					coveredZones.add(citiesIndex[i]);
 				}
 			}
 		}
