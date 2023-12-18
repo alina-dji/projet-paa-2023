@@ -6,10 +6,11 @@ public class Test {
 	public static void main(String[] args) {
 		Agglomeration agg;
 		try {
-			agg = AgglomerationFileParser.parseFile("C:\\Users\\dell\\eclipse-workspace\\projet-paa-2023\\src\\up\\mi\\ald\\root\\aggdata.txt");
+			agg = AgglomerationFileParser.parseFile("C:\\Users\\dell\\eclipse-workspace\\projet-paa-2023\\src\\up\\mi\\ald\\root\\aggdata.ca");
 			agg.printCities();
 			agg.printRoutes();
 			agg.printRechargeZones();
+			agg.printCitiesIndex();
 		} catch (IllegalDataFormattingException idfe) {
 			idfe.printStackTrace();
 		} catch (CityNotFoundException cnfe) {
@@ -17,5 +18,7 @@ public class Test {
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
+		//TODO add more .ca files for testing different scenarios
+		
     }
 }

@@ -21,13 +21,12 @@ public class Agglomeration {
 		for (int i = 0; i < numberOfCities; i++) {
 			cities.add("C" + i);
 		}
-		//TODO: use createRoutesMatrix to create routesMatrix
-		this.routesMatrix = new boolean[numberOfCities][numberOfCities]; // array is automatically Initialized to false
+		this.routesMatrix = createRoutesMatrix();
+		citiesIndex = createCitiesIndex();
 		// naive approach: there is a charging point in every city
 		for(int i = 0; i < numberOfCities; i++) {
 			rechargeZones.addAll(cities);
-		}
-		citiesIndex = createCitiesIndex();
+		}	
 	}
 	
 	public Agglomeration(Set<String> cities, Set<String> routes, Set<String> rechargeZones) {
@@ -36,7 +35,7 @@ public class Agglomeration {
 		this.rechargeZones = rechargeZones;
 		this.numberOfCities = cities.size();
 		this.citiesIndex = createCitiesIndex();
-		//TODO: create routesMatrix
+		this.routesMatrix = createRoutesMatrix();
 	}
 	
 	public void addCity(String city) {
@@ -46,11 +45,13 @@ public class Agglomeration {
 		routesMatrix = createRoutesMatrix();
 	}
 	
+	//TODO check if route is a valid route else throw IllegalDataFormattingException
 	public void addRoute(String route) {
 		routes.add(route);
 		this.routesMatrix = createRoutesMatrix();
 	}
 	
+	//TODO check if rechargeZone is a city that does exist else throw CityNotFoundException
 	public void addRecharge(String rechargeZone) {
 		rechargeZones.add(rechargeZone);
 	}
@@ -73,7 +74,7 @@ public class Agglomeration {
 		return citiesIndex;
 	}
 	
-	//TODO: edit this method so that it doesn't print messages
+	//TODO edit this method so that it doesn't print messages
 	public boolean checkAccessibility() {
 		Set<String> coveredZones = new HashSet<>(rechargeZones); // Set of cities that have access to a charging point
 		Iterator<String> rz = rechargeZones.iterator();
@@ -98,30 +99,6 @@ public class Agglomeration {
 		
 		return nonCoveredZones.isEmpty();
 	}
-	
-	//TODO: delete this method
-	/*public void addRoutes() {
-		int indexOfCity1 = -1, indexOfCity2 = -1;
-		System.out.println("Enter the indexes of the two cities you want to connect with a route.");
-		System.out.println("Make sure the city indexes are correct and do exist in the following list of cities:");
-		printCities();
-		try {
-			System.out.print("Index of the first city = ");
-			indexOfCity1 = Integer.parseInt(scanner.nextLine()); // check that the value entered by the user is a valid int
-			System.out.print("Index of the second city = ");
-			indexOfCity2 = Integer.parseInt(scanner.nextLine()); // check that the value entered by the user is a valid int
-			if(!ValueRange.of(0, cts.length-1).isValidIntValue(indexOfCity1) || !ValueRange.of(0, cts.length-1).isValidIntValue(indexOfCity2)) {
-				System.out.println("*****ERROR*****\nInvalid city index.\nIt doesn't correspond to an index of a city that exists in the list of cities.\n***************");
-			} else if (indexOfCity1 == indexOfCity2) {
-				System.out.println("*****ERROR*****\nYou can't have a route that connects a city to itself.\n***************");
-			} else {
-				routesMatrix[indexOfCity1][indexOfCity2] = true;
-				routesMatrix[indexOfCity2][indexOfCity1] = true;
-			}
-		} catch (Exception e) {
-			System.out.println("*****ERROR*****\nIndex of a city must be a positive integer\n***************");
-		}
-	}*/
 
 	public void printCities() {
 		System.out.println("List of cities:");
@@ -144,7 +121,13 @@ public class Agglomeration {
 		}
 	}
 	
+	/*public void printRoutesMatrix() {
+		for (boolean[] row : routesMatrix) {
+			System.out.println(Arrays.toString(row));
+		}       
+	}
+	
 	public int getNumberOfCities() {
 		return this.numberOfCities;
-	}
+	}*/
 }

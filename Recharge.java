@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.Iterator;
-//TODO: class not working, needs to be fixed
+//TODO move all scanner code to Scanner class
 // Recharge is a utility class
 public class Recharge {
 	private static Scanner scanner = new Scanner(System.in);
@@ -40,34 +40,7 @@ public class Recharge {
 		agg.printRechargeZones();
 	}
 	
-	/*private static boolean checkAccessibility(Agglomeration agg) {
-		Set<Integer> coveredZones = new HashSet<>(agg.rechargeZones); // Set of cities that have access to a charging point
-		Iterator<Integer> rz = agg.rechargeZones.iterator();
-		while (rz.hasNext()) {
-			Integer zoneIndex = rz.next();
-			for(int i = 0; i < agg.getNumberOfCities(); i++) {
-				if(agg.routesMatrix[zoneIndex][i] == true) {
-					coveredZones.add(i);
-				}
-			}
-		}
-		// creating a set that contains the indexes of non covered cities
-		Set<Integer> nonCoveredZones = new HashSet<>();
-		for(int i = 0; i < agg.getNumberOfCities(); i++) {
-			nonCoveredZones.add(i);
-		}
-		nonCoveredZones.removeAll(coveredZones);
-		System.out.println(coveredZones);
-		System.out.println(nonCoveredZones);
-		if(!nonCoveredZones.isEmpty()) {
-			System.out.println("The following cities don't have access to a charging point");
-			System.out.println(nonCoveredZones);
-		}
-		
-		return nonCoveredZones.isEmpty();
-	}*/
-	
-	//TODO: this method goes in the Scanner class
+	//TODO move this method to Scanner class
 	private static int scanCityIndex(Agglomeration agg, int index) {
 		try {
 			index = Integer.parseInt(scanner.nextLine());
