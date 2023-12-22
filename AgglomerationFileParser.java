@@ -9,8 +9,6 @@ import java.util.Set;
 
 public class AgglomerationFileParser {
 	
-	private static Agglomeration agg = null;
-	
 	private static int citiesFlag = 0;
 	private static int routesFlag = -1;
 	private static int rechargesFlag = -1;
@@ -20,6 +18,7 @@ public class AgglomerationFileParser {
 	private static Set<String> recharges = new HashSet<>();
 	
 	public static Agglomeration parseFile(String path) throws IllegalDataFormattingException, CityNotFoundException, IOException {
+		Agglomeration agg;
 		BufferedReader reader = new BufferedReader(new FileReader(path));
 		String line;
 		int lineNumber = 0;

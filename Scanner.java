@@ -17,11 +17,27 @@ public class Scanner {
         }
 	}
 	
-	public static void scanCityName() {
-		
+	public static String scanCityName(Agglomeration agg) throws CityNotFoundException {
+		String cityName = scanner.nextLine();
+		if(agg.checkCityExists(cityName) == true) return cityName;
+		else return "";
 	}
 	
-	public static void scanMenuChoice() {
-		
+	//TODO write this method
+	public static int scanNumberOfCities() {
+		int numberOfCities = 0;
+		numberOfCities = Integer.parseInt(scanner.nextLine());
+		return numberOfCities;
 	}
+
+	public static int scanMenuChoice() {
+		int menuChoice = -1;
+		try {
+			menuChoice = Integer.parseInt(scanner.nextLine());
+		} catch (NumberFormatException nfe) {
+			menuChoice = -1;	
+		}
+		return menuChoice;
+	}
+	
 }

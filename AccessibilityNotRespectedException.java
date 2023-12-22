@@ -1,14 +1,14 @@
 package up.mi.ald.root;
 
-public class CityNotFoundException extends Exception {
+public class AccessibilityNotRespectedException extends Exception {
 	
 	private static final long serialVersionUID = 1L;
 
-	public CityNotFoundException() {
+	public AccessibilityNotRespectedException() {
 		
 	}
 	
-	public CityNotFoundException(String message) {
+	public AccessibilityNotRespectedException(String message) {
 		super(message);
 	}
 	

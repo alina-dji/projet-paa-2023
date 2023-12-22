@@ -1,14 +1,14 @@
 package up.mi.ald.root;
 
-public class CityNotFoundException extends Exception {
+public class RechargeAlreadyExistsException extends Exception{
 	
 	private static final long serialVersionUID = 1L;
 
-	public CityNotFoundException() {
+	public RechargeAlreadyExistsException() {
 		
 	}
 	
-	public CityNotFoundException(String message) {
+	public RechargeAlreadyExistsException(String message) {
 		super(message);
 	}
 	

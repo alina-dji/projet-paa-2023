@@ -10,9 +10,8 @@ public class Agglomeration {
 	private Set<String> cities = new HashSet<>();
 	private Set<String> routes = new HashSet<>();
 	private Set<String> rechargeZones = new HashSet<>();
-	
-	private int numberOfCities; // !!! may remove if not useful
 	private boolean[][] routesMatrix;
+	private int numberOfCities; 
 	private String[] citiesIndex;
 	
 	public Agglomeration(Set<String> cities, Set<String> routes, Set<String> rechargeZones) {
@@ -24,31 +23,69 @@ public class Agglomeration {
 		this.routesMatrix = createRoutesMatrix();
 	}
 	
-	// will probably remove addCity method
-	public void addCity(String city) {
-		cities.add(city);
-		numberOfCities++;
-		citiesIndex = createCitiesIndex();
-		routesMatrix = createRoutesMatrix();
+	// this constructor is used when the user only gives the number of cities without names
+	public Agglomeration(int numberOfCities) {
+		this.numberOfCities = numberOfCities;
+		for (int i = 0; i < numberOfCities; i++) {
+			cities.add("C" + i);
+		}
+		this.routesMatrix = createRoutesMatrix();
+		this.citiesIndex = createCitiesIndex();
+		// naive approach: there is a charging point in every city
+		for(int i = 0; i < numberOfCities; i++) {
+			rechargeZones.addAll(cities);
+		}	
 	}
 	
-	// will probably remove addRoute method
-	public void addRoute(String route) throws IllegalDataFormattingException {
-		if (route.matches("(\\X+, \\X+)")) {
-			//before adding route check if cities exist
-			routes.add(route);
-			this.routesMatrix = createRoutesMatrix();
-		} else {
-			throw new IllegalDataFormattingException("A route should be formatted like this: (city1, city2)");
+	public Agglomeration() {
+		this.numberOfCities = 0;
+	}
+
+	public void addCity(String cityName) {
+		cities.add(cityName);
+		numberOfCities++;
+	}
+	
+	public void addRoute(String route) throws CityNotFoundException {
+		String city1 = route.substring(route.indexOf('(') + 1, route.indexOf(','));
+		String city2 = route.substring(route.indexOf(',') + 2, route.indexOf(')'));
+		if (checkCityExists(city1) && checkCityExists(city2)) {
+			if (routesMatrix == null) routesMatrix = new boolean[numberOfCities][numberOfCities];
+			int cityIndex1 = getCityIndex(city1);
+			int cityIndex2 = getCityIndex(city2);
+			routesMatrix[cityIndex1][cityIndex2] = true;
+			routesMatrix[cityIndex2][cityIndex1] = true;
 		}
 	}
 	
-	public void addRecharge(String rechargeZone) throws CityNotFoundException {
-		if (cities.contains(rechargeZone)) {
-			rechargeZones.add(rechargeZone);
-		} else {
-			throw new CityNotFoundException(rechargeZone + " does not exist");
+	public void addRecharge(String city) throws CityNotFoundException, RechargeAlreadyExistsException {
+		if(checkCityExists(city)) {
+			if(rechargeZones.contains(city)) {
+				throw new RechargeAlreadyExistsException("A charging point already exists in " + city);
+			} else {
+				rechargeZones.add(city);
+			}
 		}	
+	}
+	
+	public void deleteRecharge(String city) throws CityNotFoundException, AccessibilityNotRespectedException {
+		Set<String> nonCoveredZones = null;
+		if(checkCityExists(city)) {
+			rechargeZones.remove(city);
+			nonCoveredZones = checkAccessibility();
+			if(!nonCoveredZones.isEmpty()) {
+				try {
+					addRecharge(city);
+				} catch(RechargeAlreadyExistsException raee) {
+				}
+				throw new AccessibilityNotRespectedException(nonCoveredZones.toString());
+			}
+		} 
+	}
+	
+	private int getCityIndex(String city) {
+		int cityIndex = Arrays.binarySearch(citiesIndex, city);
+		return cityIndex;
 	}
 	
 	private boolean[][] createRoutesMatrix() {
@@ -56,8 +93,8 @@ public class Agglomeration {
 		Iterator<String> r = routes.iterator();
 		while (r.hasNext()) {
 			String route = r.next();
-			int cityIndex1 = Arrays.binarySearch(citiesIndex, route.substring(route.indexOf('(') + 1, route.indexOf(',')));
-			int cityIndex2 = Arrays.binarySearch(citiesIndex, route.substring(route.indexOf(',') + 2, route.indexOf(')')));
+			int cityIndex1 = getCityIndex(route.substring(route.indexOf('(') + 1, route.indexOf(',')));
+			int cityIndex2 = getCityIndex(route.substring(route.indexOf(',') + 2, route.indexOf(')')));
 			routesMatrix[cityIndex1][cityIndex2] = true;
 			routesMatrix[cityIndex2][cityIndex1] = true;
 		}
@@ -69,13 +106,14 @@ public class Agglomeration {
 		return citiesIndex;
 	}
 	
-	//TODO edit this method so that it doesn't print messages and returns list of nonCoveredZones
-	public boolean checkAccessibility() {
+	public Set<String> checkAccessibility() {
 		Set<String> coveredZones = new HashSet<>(rechargeZones); // Set of cities that have access to a charging point
 		Iterator<String> rz = rechargeZones.iterator();
-		int zoneIndex = -1;
+		int zoneIndex;
+		String zone;
 		while (rz.hasNext()) {
-			zoneIndex++;
+			zone = rz.next();
+			zoneIndex = getCityIndex(zone);
 			for(int i = 0; i < numberOfCities; i++) {
 				if(routesMatrix[zoneIndex][i] == true) {
 					coveredZones.add(citiesIndex[i]);
@@ -85,44 +123,39 @@ public class Agglomeration {
 		// creating a set that contains the indexes of non covered cities
 		Set<String> nonCoveredZones = new HashSet<>(cities);
 		nonCoveredZones.removeAll(coveredZones);
-		System.out.println(coveredZones);
-		System.out.println(nonCoveredZones);
-		if(!nonCoveredZones.isEmpty()) {
-			System.out.println("The following cities don't have access to a charging point");
-			System.out.println(nonCoveredZones);
-		}
 		
-		return nonCoveredZones.isEmpty();
-	}
-
-	public void printCities() {
-		System.out.println("List of cities:");
-		System.out.println(cities);
+		return nonCoveredZones;
 	}
 	
-	public void printRoutes() {
-		System.out.println("List of routes:");
-		System.out.println(routes);
+	public boolean checkCityExists(String cityName) throws CityNotFoundException {
+		if (cities.contains(cityName)) {
+			return true;
+		} else {
+			throw new CityNotFoundException(cityName + " does not exist.");
+		}	
 	}
 	
-	public void printRechargeZones() {
-		System.out.println("List of cities that have a charging point: ");
-		System.out.println(rechargeZones);
+	public Set<String> getCities() {
+		//System.out.println("List of cities:");
+		//System.out.println(cities);
+		return cities;
+		
 	}
 	
-	public void printCitiesIndex() {
-		for(int i = 0; i < citiesIndex.length; i++) {
-			System.out.println(i + ":" + citiesIndex[i]);
-		}
+	public Set<String> getRechargeZones() {
+		//System.out.println("List of cities that have a charging point: ");
+		//System.out.println(rechargeZones);
+		return rechargeZones;
 	}
 	
-	/*public void printRoutesMatrix() {
-		for (boolean[] row : routesMatrix) {
-			System.out.println(Arrays.toString(row));
-		}       
+	public Set<String> getRoutes() {
+		//System.out.println("List of routes:");
+		//System.out.println(routes);
+		return routes;
 	}
 	
 	public int getNumberOfCities() {
 		return this.numberOfCities;
-	}*/
+	}
+	
 }
