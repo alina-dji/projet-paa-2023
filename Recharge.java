@@ -1,6 +1,12 @@
 package up.mi.ald.root;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.security.SecureRandom;
+import java.util.Iterator;
+import java.util.Set;
 
 // Recharge is a utility class
 public class Recharge {
@@ -41,7 +47,23 @@ public class Recharge {
 		
 	}
 	
-	public static void saveRechargeSolution(String path, Agglomeration agg) {
-		
+	public static void saveRechargeSolution(String filePath, Agglomeration agg) throws IOException {
+		Path path = Path.of(filePath);
+		Set<String> recharges = agg.getRechargeZones(); 
+		Iterator<String> r = recharges.iterator();
+		String line = "\nRecharge automatic solution:";
+		byte[] textBytes = line.getBytes();
+		do {
+			if (Files.exists(path)) {
+	            Files.write(path, textBytes, StandardOpenOption.APPEND);
+	        } else {
+	            Files.write(path, textBytes, StandardOpenOption.CREATE);
+	        }
+			if (r.hasNext()) {
+				line = "\nrecharge(" + r.next() +").";
+				textBytes = line.getBytes();
+			}
+			else line = null;
+		} while(line != null);
 	}
 }

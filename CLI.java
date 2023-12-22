@@ -39,8 +39,13 @@ public class CLI {
 					break;
 				case 4:
 					path = getFilePath("Input the path to the file where you want to save the solution");
-					Recharge.saveRechargeSolution(path, agg);
-					System.out.println("The solution has been successfully saved.");
+					try {
+						Recharge.saveRechargeSolution(path, agg);
+						System.out.println("The solution has been successfully saved.");
+					} catch (IOException e) {
+						System.out.println("An error occured when trying to access your file path. Please, check that the location you specified is correct and that there are no other issues preventing the writing operation.");
+					}
+					
 					break;
 				case 0:
 					endProgram();

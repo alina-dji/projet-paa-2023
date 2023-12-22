@@ -45,20 +45,6 @@ public class Agglomeration {
 				this.rechargeZones.addAll(cities);
 			}
 		}
-		/*if (!rechargeZones.isEmpty()) {
-			this.rechargeZones = rechargeZones;
-			// if the accessibility constraint is not respected, apply the naive approach
-			if(this.checkAccessibility().isEmpty() != true) {
-				for(int i = 0; i < numberOfCities; i++) {
-					this.rechargeZones.addAll(cities);
-				}
-			}
-		}
-		else {
-			for(int i = 0; i < numberOfCities; i++) {
-				this.rechargeZones.addAll(cities);
-			}
-		}*/
 	}
 
 	public void addCity(String cityName) {
@@ -77,28 +63,6 @@ public class Agglomeration {
 			routesMatrix[cityIndex2][cityIndex1] = true;
 		}
 	}
-	
-	/*public void addRecharge(String city) throws CityNotFoundException, RechargeAlreadyExistsException {
-		if(checkCityExists(city)) {
-			if(rechargeZones.contains(city)) {
-				throw new RechargeAlreadyExistsException("A charging point already exists in " + city);
-			} else {
-				rechargeZones.add(city);
-			}
-		}	
-	}*/
-	
-	/*public void deleteRecharge(String city) throws CityNotFoundException, AccessibilityNotRespectedException {
-		Set<String> nonCoveredZones = null;
-		if(checkCityExists(city)) {
-			rechargeZones.remove(city);
-			nonCoveredZones = checkAccessibility();
-			if(!nonCoveredZones.isEmpty()) {
-				addRecharge(city);
-				throw new AccessibilityNotRespectedException(nonCoveredZones.toString());
-			}
-		} 
-	}*/
 	
 	public String addRecharge(String city) throws CityNotFoundException {
 		String message = null;
