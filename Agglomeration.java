@@ -5,6 +5,14 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+/**
+* 
+* The Agglomeration class allows the creation and manipulation of an Agglomeration object.
+*
+* @author Lina Djihane AZIZA, Suntanqing FU
+* @version 1.0
+*
+*/
 public class Agglomeration {
 	
 	private Set<String> cities = new HashSet<>();

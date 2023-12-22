@@ -3,6 +3,15 @@ package up.mi.ald.root;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
 
+/**
+*
+* The Scanner class is a utility class that contains all the methods needed to scan 
+* the user's input from the keyboard.
+*
+* @author Lina Djihane AZIZA, Suntanqing FU
+* @version 1.0
+*
+*/
 public class Scanner {
 	
 	private static java.util.Scanner scanner = new java.util.Scanner(System.in);
@@ -23,10 +32,13 @@ public class Scanner {
 		else return "";
 	}
 	
-	//TODO write this method
 	public static int scanNumberOfCities() {
-		int numberOfCities = 0;
-		numberOfCities = Integer.parseInt(scanner.nextLine());
+		int numberOfCities = -1;
+		try {
+			numberOfCities = Integer.parseInt(scanner.nextLine());
+		} catch(NumberFormatException nfe) {
+			numberOfCities = -1;
+		}
 		return numberOfCities;
 	}
 

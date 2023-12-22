@@ -2,9 +2,18 @@ package up.mi.ald.root;
 
 import java.io.IOException;
 
-// command line interface: all the messages destined to communicate with the user go here
+/**
+*
+* The CLI (command line interface) class is a utility class that manages the communication 
+* with the user. All the messages destined to communicate with the user are in this class.
+*
+* @author Lina Djihane AZIZA, Suntanqing FU
+* @version 1.0
+*
+*/
 public class CLI {
 	
+	//TODO implement inputMenu() (optional)
 	public static void inputMenu() {
 		
 	}

@@ -9,6 +9,16 @@ import java.util.Iterator;
 import java.util.Set;
 
 // Recharge is a utility class
+
+/**
+*
+* The Recharge class is a utility class that contains methods to automatically solve 
+* the recharge problem and save the solution. 
+*
+* @author Lina Djihane AZIZA, Suntanqing FU
+* @version 1.0
+*
+*/
 public class Recharge {
 	
 	public static void solveAutomatically(Agglomeration agg) {
@@ -25,11 +35,6 @@ public class Recharge {
 			city = agg.getCityName(randomCityIndex);
 			if(agg.checkRechargeExists(city)) {
 				agg.deleteRecharge(city);
-				/*try {
-					agg.deleteRecharge(city);
-				} catch(AccessibilityNotRespectedException anre) {
-					continue;
-				}*/
 			} else {
 				agg.addRecharge(city);
 			}

@@ -1,6 +1,6 @@
 ▫saveRechargeSolution() method in Recharge.java ✅
 ▫Implement automatic solution algorithm in Recharge.java ✅
-▫Add more aggdata.txt files for testing different scenarios
+▫Add more aggdata.txt files for testing different scenarios ✅
 ▫Main.java and test everything
 ▫javadoc
 ▫readme.md
