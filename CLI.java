@@ -11,12 +11,19 @@ public class CLI {
 	
 	public static void mainMenu(String path) {
 		Agglomeration agg = createAgglomeration(path);
-		System.out.println("1. Solve manually");
-		System.out.println("2. Solve automatically");
-		System.out.println("3. Save");
-		System.out.println("0. Exit");
+		System.out.println("List of cities:");
+		System.out.println(agg.getCities());
+		System.out.println("List of routes:");
+		System.out.println(agg.getRoutes());
+		System.out.println("List of recharge zones:");
+		System.out.println(agg.getRechargeZones());
 		int menuChoice = -1;
 		do {
+			System.out.println("1. Solve manually");
+			System.out.println("2. Solve automatically (naive algorithm)");
+			System.out.println("3. Solve automatically (optimised algorithm)");
+			System.out.println("4. Save");
+			System.out.println("0. Exit");
 			menuChoice = Scanner.scanMenuChoice();
 			switch(menuChoice) {
 				case 1:
@@ -24,9 +31,13 @@ public class CLI {
 					break;
 				case 2:
 					Recharge.solveAutomatically(agg);
-					//TODO print solution
+					System.out.println(agg.getRechargeZones());
 					break;
 				case 3:
+					Recharge.solveAutomatically2(agg);
+					System.out.println(agg.getRechargeZones());
+					break;
+				case 4:
 					path = getFilePath("Input the path to the file where you want to save the solution");
 					Recharge.saveRechargeSolution(path, agg);
 					System.out.println("The solution has been successfully saved.");
@@ -35,8 +46,8 @@ public class CLI {
 					endProgram();
 				default:
 					System.out.println("Invalid menu choice. The menu choice must be a number from the menu list. Please, try again.");
-					menuChoice = -1;
 			}
+			menuChoice = -1;
 		} while(menuChoice == -1);
 	}
 	
@@ -54,29 +65,22 @@ public class CLI {
 					System.out.println("Enter the name of the city where you want to add a charging point");
 					try {
 						city = Scanner.scanCityName(agg);
-						agg.addRecharge(city);
-						System.out.println("A charging point was added to " + city);
+						String message = agg.addRecharge(city);
+						System.out.println(message);
 					} catch(CityNotFoundException cnfe) {
 						cnfe.printMessage();
 						System.out.println("Please, enter a valid city name.");
-						menuChoice = -1;
-					} catch (RechargeAlreadyExistsException raee) {
-						raee.printMessage();
 					}
 					break;
 				case 2:
 					System.out.println("Enter the name of the city from where you want to delete a charging point");
 					try {
 						city = Scanner.scanCityName(agg);
-						agg.deleteRecharge(city);
-						System.out.println("A charging point has been removed from " + city);
+						String message = agg.deleteRecharge(city);
+						System.out.println(message);
 					} catch(CityNotFoundException cnfe) {
 						cnfe.printMessage();
 						System.out.println("Please, enter a valid city name.");
-						menuChoice = -1;
-					} catch(AccessibilityNotRespectedException anre) {
-						System.out.println("The charging point in " + city + "can't be removed. Because the following cities wouldn't have access to a charging point:");
-						anre.printMessage();
 					}
 					break;
 				case 3:
@@ -87,8 +91,8 @@ public class CLI {
 					endProgram();
 				default:
 					System.out.println("Invalid menu choice. The menu choice must be a number from the menu list. Please, try again.");
-					menuChoice = -1;
-			}	
+			}
+			menuChoice = -1;
 		} while(menuChoice == -1);
 	}
 	

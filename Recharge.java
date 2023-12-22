@@ -5,10 +5,9 @@ import java.security.SecureRandom;
 // Recharge is a utility class
 public class Recharge {
 	
-	//TODO make it return a set of rechargesZones instead of modifying (maybe?)
 	public static void solveAutomatically(Agglomeration agg) {
 		int numberOfCities = agg.getNumberOfCities();
-		int k = numberOfCities + 100;
+		int k = numberOfCities + 1000;
 		int oldScore = agg.getNumberOfRechargeZones();
 		int newScore;
 		int i = 0;
@@ -20,6 +19,11 @@ public class Recharge {
 			city = agg.getCityName(randomCityIndex);
 			if(agg.checkRechargeExists(city)) {
 				agg.deleteRecharge(city);
+				/*try {
+					agg.deleteRecharge(city);
+				} catch(AccessibilityNotRespectedException anre) {
+					continue;
+				}*/
 			} else {
 				agg.addRecharge(city);
 			}
@@ -31,6 +35,10 @@ public class Recharge {
 				i++;
 			}
 		}
+	}
+	
+	public static void solveAutomatically2(Agglomeration agg) {
+		
 	}
 	
 	public static void saveRechargeSolution(String path, Agglomeration agg) {

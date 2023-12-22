@@ -14,32 +14,51 @@ public class Agglomeration {
 	private int numberOfCities; 
 	private String[] citiesIndex;
 	
-	public Agglomeration(Set<String> cities, Set<String> routes, Set<String> rechargeZones) {
-		this.cities = cities;
-		this.routes = routes;
-		this.rechargeZones = rechargeZones;
-		//TODO check accessibility
-		this.numberOfCities = cities.size();
-		this.citiesIndex = createCitiesIndex();
-		this.routesMatrix = createRoutesMatrix();
+	public Agglomeration() {
+		this.numberOfCities = 0;
 	}
 	
 	// this constructor is used when the user only gives the number of cities without names
-	public Agglomeration(int numberOfCities) {
-		this.numberOfCities = numberOfCities;
-		for (int i = 0; i < numberOfCities; i++) {
-			cities.add("C" + i);
+		public Agglomeration(int numberOfCities) {
+			this.numberOfCities = numberOfCities;
+			for (int i = 0; i < numberOfCities; i++) {
+				cities.add("C" + i);
+			}
+			this.routesMatrix = createRoutesMatrix();
+			this.citiesIndex = createCitiesIndex();
+			// naive approach: there is a charging point in every city
+			for(int i = 0; i < numberOfCities; i++) {
+				rechargeZones.addAll(cities);
+			}	
 		}
-		this.routesMatrix = createRoutesMatrix();
-		this.citiesIndex = createCitiesIndex();
-		// naive approach: there is a charging point in every city
-		for(int i = 0; i < numberOfCities; i++) {
-			rechargeZones.addAll(cities);
-		}	
-	}
 	
-	public Agglomeration() {
-		this.numberOfCities = 0;
+	public Agglomeration(Set<String> cities, Set<String> routes, Set<String> rechargeZones) {
+		this.cities = cities;
+		this.routes = routes;
+		this.numberOfCities = cities.size();
+		this.citiesIndex = createCitiesIndex();
+		this.routesMatrix = createRoutesMatrix();
+		this.rechargeZones = rechargeZones;
+		// if the accessibility constraint is not respected, apply the naive approach
+		if(this.checkAccessibility().isEmpty() != true) {
+			for(int i = 0; i < numberOfCities; i++) {
+				this.rechargeZones.addAll(cities);
+			}
+		}
+		/*if (!rechargeZones.isEmpty()) {
+			this.rechargeZones = rechargeZones;
+			// if the accessibility constraint is not respected, apply the naive approach
+			if(this.checkAccessibility().isEmpty() != true) {
+				for(int i = 0; i < numberOfCities; i++) {
+					this.rechargeZones.addAll(cities);
+				}
+			}
+		}
+		else {
+			for(int i = 0; i < numberOfCities; i++) {
+				this.rechargeZones.addAll(cities);
+			}
+		}*/
 	}
 
 	public void addCity(String cityName) {
@@ -59,7 +78,7 @@ public class Agglomeration {
 		}
 	}
 	
-	public void addRecharge(String city) throws CityNotFoundException, RechargeAlreadyExistsException {
+	/*public void addRecharge(String city) throws CityNotFoundException, RechargeAlreadyExistsException {
 		if(checkCityExists(city)) {
 			if(rechargeZones.contains(city)) {
 				throw new RechargeAlreadyExistsException("A charging point already exists in " + city);
@@ -67,9 +86,9 @@ public class Agglomeration {
 				rechargeZones.add(city);
 			}
 		}	
-	}
+	}*/
 	
-	public void deleteRecharge(String city) throws CityNotFoundException, AccessibilityNotRespectedException {
+	/*public void deleteRecharge(String city) throws CityNotFoundException, AccessibilityNotRespectedException {
 		Set<String> nonCoveredZones = null;
 		if(checkCityExists(city)) {
 			rechargeZones.remove(city);
@@ -79,6 +98,35 @@ public class Agglomeration {
 				throw new AccessibilityNotRespectedException(nonCoveredZones.toString());
 			}
 		} 
+	}*/
+	
+	public String addRecharge(String city) throws CityNotFoundException {
+		String message = null;
+		if(checkCityExists(city)) {
+			if(rechargeZones.contains(city)) {
+				message = "A charging point already exists in " + city;
+			} else {
+				message = "A charging point was added to " + city;
+				rechargeZones.add(city);
+			}
+		}
+		return message;
+	}
+	
+	public String deleteRecharge(String city) throws CityNotFoundException {
+		Set<String> nonCoveredZones = null;
+		String message = null;
+		if(checkCityExists(city)) {
+			rechargeZones.remove(city);
+			nonCoveredZones = checkAccessibility();
+			if(!nonCoveredZones.isEmpty()) {
+				message = "The charging point in " + city + "can't be removed. Because the following cities wouldn't have access to a charging point:" + nonCoveredZones;
+				addRecharge(city);
+			} else {
+				message = "A charging point has been removed from " + city;
+			}
+		}
+		return message;
 	}
 	
 	private int getCityIndex(String city) {
