@@ -18,18 +18,11 @@ public class Recharge {
 			randomCityIndex = rand.nextInt(numberOfCities);
 			city = agg.getCityName(randomCityIndex);
 			if(agg.checkRechargeExists(city)) {
-				try {
-					agg.deleteRecharge(city);
-				} catch (Exception e) {
-				} 
+				agg.deleteRecharge(city);
 			} else {
-				try {
-					agg.addRecharge(city);
-				} catch (Exception e) {
-				} 
+				agg.addRecharge(city);
 			}
 		}
-		
 	}
 	
 	public static void saveRechargeSolution(String path, Agglomeration agg) {

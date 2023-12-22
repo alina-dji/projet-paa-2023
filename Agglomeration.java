@@ -75,10 +75,7 @@ public class Agglomeration {
 			rechargeZones.remove(city);
 			nonCoveredZones = checkAccessibility();
 			if(!nonCoveredZones.isEmpty()) {
-				try {
-					addRecharge(city);
-				} catch(RechargeAlreadyExistsException raee) {
-				}
+				addRecharge(city);
 				throw new AccessibilityNotRespectedException(nonCoveredZones.toString());
 			}
 		} 

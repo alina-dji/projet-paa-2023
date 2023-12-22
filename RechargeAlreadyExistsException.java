@@ -1,6 +1,6 @@
 package up.mi.ald.root;
 
-public class RechargeAlreadyExistsException extends Exception{
+public class RechargeAlreadyExistsException extends RuntimeException{
 	
 	private static final long serialVersionUID = 1L;
 

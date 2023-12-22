@@ -1,6 +1,6 @@
 package up.mi.ald.root;
 
-public class AccessibilityNotRespectedException extends Exception {
+public class AccessibilityNotRespectedException extends RuntimeException {
 	
 	private static final long serialVersionUID = 1L;
 

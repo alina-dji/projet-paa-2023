@@ -1,6 +1,6 @@
 package up.mi.ald.root;
 
-public class CityNotFoundException extends Exception {
+public class CityNotFoundException extends RuntimeException {
 	
 	private static final long serialVersionUID = 1L;
 
