@@ -7,13 +7,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
-*
 * The AgglomerationFileParser class parses a file containing information about cities, routes, and recharges to create an Agglomeration object. 
 * It reads the file line by line, extracts relevant information, and constructs the Agglomeration.
 *
 * @author Lina Djihane AZIZA, Suntanqing FU
 * @version 1.0
-*
 */
 public class AgglomerationFileParser {
 	

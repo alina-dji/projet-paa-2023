@@ -3,13 +3,11 @@ package up.mi.ald.root;
 import java.io.IOException;
 
 /**
-*
-* The CLI (command line interface) class is a utility class that manages the communication 
-* with the user. All the messages destined to communicate with the user are in this class.
+* The CLI class provides a command-line interface for interacting with the Agglomeration and Recharge classes.
+* It allows users to input data, perform manual or automatic charging point placement, save solutions, and exit the program.
 *
 * @author Lina Djihane AZIZA, Suntanqing FU
 * @version 1.0
-*
 */
 public class CLI {
 	
@@ -18,6 +16,12 @@ public class CLI {
 		
 	}
 	
+	 /**
+     * Displays the main menu, allowing users to create an agglomeration, solve problems manually or automatically,
+     * save the solution, or exit the program.
+     *
+     * @param path The file path containing agglomeration data, or an empty string if not provided.
+     */
 	public static void mainMenu(String path) {
 		Agglomeration agg = createAgglomeration(path);
 		System.out.println("List of cities:");
@@ -65,6 +69,11 @@ public class CLI {
 		} while(menuChoice == -1);
 	}
 	
+	 /**
+     * Displays the manual solution menu, allowing users to add or remove charging points, or show existing charging points.
+     *
+     * @param agg The Agglomeration object representing the urban structure.
+     */
 	public static void manualSolutionMenu(Agglomeration agg) {
 		int menuChoice = -1;
 		String city = null;
@@ -110,7 +119,13 @@ public class CLI {
 		} while(menuChoice == -1);
 	}
 	
-	private static Agglomeration createAgglomeration(String path) {
+	/**
+     * Creates an Agglomeration object based on the provided file path or prompts the user to input the path.
+     *
+     * @param path The file path containing agglomeration data, or an empty string if not provided.
+     * @return The created Agglomeration object.
+     */
+	public static Agglomeration createAgglomeration(String path) {
 		if(path.isEmpty()) path = getFilePath("Input the path to the file containning your agglomeration data:");
 		Agglomeration agg = null;
 		try {
@@ -128,7 +143,13 @@ public class CLI {
 		return agg;
 	}
 	
-	private static String getFilePath(String message) {
+	/**
+     * Prompts the user to input a file path and validates the input.
+     *
+     * @param message The message to display to the user when prompting for the file path.
+     * @return The validated file path.
+     */
+	public static String getFilePath(String message) {
 		System.out.println(message);
 		String path = Scanner.scanFilePath();
 		while (path.isEmpty()) {
@@ -138,6 +159,9 @@ public class CLI {
 		return path;
 	}
 	
+	/**
+     * Ends the program and prints a termination message.
+     */
 	public static void endProgram() {
 		System.out.println("Program ended");
 		System.exit(0);

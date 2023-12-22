@@ -6,12 +6,11 @@ import java.util.Iterator;
 import java.util.Set;
 
 /**
-* 
-* The Agglomeration class allows the creation and manipulation of an Agglomeration object.
+* The Agglomeration class represents an urban structure composed of cities, routes, and recharge zones.
+* It provides methods to add and delete cities, routes, and recharge zones, as well as check the accessibility of recharge zones.
 *
 * @author Lina Djihane AZIZA, Suntanqing FU
 * @version 1.0
-*
 */
 public class Agglomeration {
 	
@@ -22,24 +21,40 @@ public class Agglomeration {
 	private int numberOfCities; 
 	private String[] citiesIndex;
 	
+	/**
+     * Constructs an empty Agglomeration with zero cities.
+     */
 	public Agglomeration() {
 		this.numberOfCities = 0;
 	}
 	
-	// this constructor is used when the user only gives the number of cities without names
-		public Agglomeration(int numberOfCities) {
-			this.numberOfCities = numberOfCities;
-			for (int i = 0; i < numberOfCities; i++) {
-				cities.add("C" + i);
-			}
-			this.routesMatrix = createRoutesMatrix();
-			this.citiesIndex = createCitiesIndex();
-			// naive approach: there is a charging point in every city
-			for(int i = 0; i < numberOfCities; i++) {
-				rechargeZones.addAll(cities);
-			}	
+	/**
+     * Constructs an Agglomeration with a specified number of cities, each with a default name.
+     * Charging points are added to every city by default.
+     * It is used when the user only gives the number of cities without names.
+     *
+     * @param numberOfCities The number of cities in the agglomeration.
+     */
+	public Agglomeration(int numberOfCities) {
+		this.numberOfCities = numberOfCities;
+		for (int i = 0; i < numberOfCities; i++) {
+			cities.add("C" + i);
 		}
+		this.routesMatrix = createRoutesMatrix();
+		this.citiesIndex = createCitiesIndex();
+		// naive approach: there is a charging point in every city
+		for(int i = 0; i < numberOfCities; i++) {
+			rechargeZones.addAll(cities);
+		}	
+	}
 	
+	/**
+     * Constructs an Agglomeration with specified sets of cities, routes, and recharge zones.
+     *
+     * @param cities The set of city names within the agglomeration.
+     * @param routes The set of route information connecting the cities.
+     * @param rechargeZones The set of recharge zones within the cities.
+     */
 	public Agglomeration(Set<String> cities, Set<String> routes, Set<String> rechargeZones) {
 		this.cities = cities;
 		this.routes = routes;
@@ -54,12 +69,23 @@ public class Agglomeration {
 			}
 		}
 	}
-
+	
+	/**
+     * Adds a city to the agglomeration.
+     *
+     * @param cityName The name of the city to add.
+     */
 	public void addCity(String cityName) {
 		cities.add(cityName);
 		numberOfCities++;
 	}
 	
+	/**
+     * Adds a route to the agglomeration.
+     *
+     * @param route The route information to add.
+     * @throws CityNotFoundException If one or both cities in the route do not exist.
+     */
 	public void addRoute(String route) throws CityNotFoundException {
 		String city1 = route.substring(route.indexOf('(') + 1, route.indexOf(','));
 		String city2 = route.substring(route.indexOf(',') + 2, route.indexOf(')'));
@@ -72,6 +98,13 @@ public class Agglomeration {
 		}
 	}
 	
+	/**
+     * Adds a recharge zone to a city in the agglomeration.
+     *
+     * @param city The city where to add a recharge zone.
+     * @return A message indicating the success or failure of adding the recharge zone.
+     * @throws CityNotFoundException If the specified city does not exist.
+     */
 	public String addRecharge(String city) throws CityNotFoundException {
 		String message = null;
 		if(checkCityExists(city)) {
@@ -85,6 +118,13 @@ public class Agglomeration {
 		return message;
 	}
 	
+	/**
+     * Deletes a recharge zone from a city in the agglomeration.
+     *
+     * @param city The city where the recharge zone needs to be removed.
+     * @return A message indicating the success or failure of removing the recharge zone.
+     * @throws CityNotFoundException If the specified city does not exist.
+     */
 	public String deleteRecharge(String city) throws CityNotFoundException {
 		Set<String> nonCoveredZones = null;
 		String message = null;
@@ -101,7 +141,13 @@ public class Agglomeration {
 		return message;
 	}
 	
-	private int getCityIndex(String city) {
+	/**
+     * Retrieves the index of a city based on its name in the internal cities array.
+     *
+     * @param city The name of the city to find the index of.
+     * @return The index of the city, or -1 if the city is not found.
+     */
+	public int getCityIndex(String city) {
 		int cityIndex = -1;
 		for(int i = 0; i < numberOfCities; i++) {
 	        if (citiesIndex[i].equals(city)) {
@@ -111,6 +157,12 @@ public class Agglomeration {
 		return cityIndex;
 	}
 	
+	/**
+     * Retrieves the name of a city based on its index in the internal cities array.
+     *
+     * @param index The index of the city.
+     * @return The name of the city.
+     */
 	public String getCityName(int index) {
 		return citiesIndex[index];
 	}
@@ -133,6 +185,11 @@ public class Agglomeration {
 		return citiesIndex;
 	}
 	
+	/**
+     * Checks whether the accessibility constraint is respected in the agglomeration.
+     *
+     * @return A set containing the names of cities that do not have access to a charging point.
+     */
 	public Set<String> checkAccessibility() {
 		Set<String> coveredZones = new HashSet<>(rechargeZones); // Set of cities that have access to a charging point
 		Iterator<String> rz = rechargeZones.iterator();
@@ -154,11 +211,24 @@ public class Agglomeration {
 		return nonCoveredZones;
 	}
 	
+	/**
+     * Checks if a recharge point exists in the specified city.
+     *
+     * @param city The name of the city to check for a recharge point.
+     * @return true if a recharge point exists, false otherwise.
+     */
 	public boolean checkRechargeExists(String city) {
 		if(rechargeZones.contains(city)) return true;
 		else return false;
 	}
 	
+	/**
+     * Checks if a city exists in the agglomeration.
+     *
+     * @param cityName The name of the city to check.
+     * @return true if the city exists, throws CityNotFoundException otherwise.
+     * @throws CityNotFoundException If the specified city does not exist.
+     */
 	public boolean checkCityExists(String cityName) throws CityNotFoundException {
 		if (cities.contains(cityName)) {
 			return true;
