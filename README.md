@@ -23,3 +23,9 @@ This project is developed using Java 8.
 
 ```bash
 javac *.java
+```
+### Running the Project
+
+```bash
+java Main
+```
