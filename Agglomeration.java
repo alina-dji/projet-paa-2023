@@ -90,11 +90,6 @@ public class Agglomeration {
 		return citiesIndex[index];
 	}
 	
-	public boolean checkRechargeExists(String city) {
-		if(rechargeZones.contains(city)) return true;
-		else return false;
-	}
-	
 	private boolean[][] createRoutesMatrix() {
 		boolean[][] routesMatrix = new boolean[numberOfCities][numberOfCities];
 		Iterator<String> r = routes.iterator();
@@ -134,6 +129,11 @@ public class Agglomeration {
 		return nonCoveredZones;
 	}
 	
+	public boolean checkRechargeExists(String city) {
+		if(rechargeZones.contains(city)) return true;
+		else return false;
+	}
+	
 	public boolean checkCityExists(String cityName) throws CityNotFoundException {
 		if (cities.contains(cityName)) {
 			return true;
@@ -158,4 +158,7 @@ public class Agglomeration {
 		return this.numberOfCities;
 	}
 	
+	public int getNumberOfRechargeZones() {
+		return rechargeZones.size();
+	}
 }
