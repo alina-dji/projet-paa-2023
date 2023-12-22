@@ -11,13 +11,13 @@ This project aims to develop a solution for optimizing the placement of charging
 
 ## Java Version
 
-This project is developed using Java 8.
+This project is developed using Java SE 17.
 
 ## Getting Started
 
 ### Prerequisites
 
-- Java Development Kit (JDK) 8 or later
+- Java Development Kit (JDK) 17.0.2
 
 ### Compiling the Project
 
