@@ -90,17 +90,24 @@ public class AgglomerationFileParser {
      * @param cities The set of cities to check for existence.
      * @return The route information.
      * @throws CityNotFoundException If one or both cities in the route do not exist.
+	 * @throws IllegalDataFormattingException If both cities in a route are the same. 
      */
-	public static String extractRoute(String line, Set<String> cities) throws CityNotFoundException {
+	public static String extractRoute(String line, Set<String> cities) throws CityNotFoundException, IllegalDataFormattingException {
 		String route = null;
-		boolean cityOneExists = cities.contains(line.substring(line.indexOf('(') + 1, line.indexOf(',')));
-		boolean cityTwoExists = cities.contains(line.substring(line.indexOf(',') + 2, line.indexOf(')')));
-		if (cityOneExists && cityTwoExists) {
-			route = line.substring(line.indexOf('('), line.indexOf(')') + 1);
+		String city1 = line.substring(line.indexOf('(') + 1, line.indexOf(','));
+		String city2 = line.substring(line.indexOf(',') + 2, line.indexOf(')'));
+		if (city1.equals(city2)) {
+			throw new IllegalDataFormattingException("Your data is incorrectly formatted. You can't have a route from and to the same city");
 		} else {
-			throw new CityNotFoundException(line + " can't be added because one or both cities of your route don't exist");
+			boolean cityOneExists = cities.contains(city1);
+			boolean cityTwoExists = cities.contains(city2);
+			if (cityOneExists && cityTwoExists) {
+				route = line.substring(line.indexOf('('), line.indexOf(')') + 1);
+			} else {
+				throw new CityNotFoundException(line + " can't be added because one or both cities of your route don't exist");
+			}
+			return route;
 		}
-		return route;
 	}
 	
 	/**
