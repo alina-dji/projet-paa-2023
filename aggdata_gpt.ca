@@ -1,0 +1,183 @@
+ville(A).
+ville(B).
+ville(C).
+ville(D).
+ville(E).
+ville(F).
+ville(G).
+ville(H).
+ville(I).
+ville(J).
+ville(K).
+ville(L).
+ville(M).
+ville(N).
+ville(O).
+ville(P).
+ville(Q).
+ville(R).
+ville(S).
+ville(T).
+ville(U).
+ville(V).
+ville(W).
+ville(X).
+ville(Y).
+ville(Z).
+ville(AA).
+ville(AB).
+ville(AC).
+ville(AD).
+ville(AE).
+ville(AF).
+ville(AG).
+ville(AH).
+ville(AI).
+ville(AJ).
+ville(AK).
+ville(AL).
+ville(AM).
+ville(AN).
+ville(AO).
+ville(AP).
+ville(AQ).
+ville(AR).
+ville(AS).
+ville(AT).
+ville(AU).
+ville(AV).
+ville(AW).
+ville(AX).
+ville(AY).
+ville(AZ).
+ville(BA).
+ville(BB).
+ville(BC).
+ville(BD).
+ville(BE).
+ville(BF).
+ville(BG).
+ville(BH).
+ville(BI).
+ville(BJ).
+ville(BK).
+ville(BL).
+ville(BM).
+ville(BN).
+ville(BO).
+ville(BP).
+ville(BQ).
+ville(BR).
+ville(BS).
+ville(BT).
+ville(BU).
+ville(BV).
+ville(BW).
+ville(BX).
+ville(BY).
+ville(BZ).
+ville(CA).
+ville(CB).
+ville(CC).
+ville(CD).
+ville(CE).
+ville(CF).
+ville(CG).
+ville(CH).
+ville(CI).
+ville(CJ).
+ville(CK).
+ville(CL).
+ville(CM).
+route(A, B).
+route(A, D).
+route(B, C).
+route(B, H).
+route(C, D).
+route(C, I).
+route(D, E).
+route(E, F).
+route(E, G).
+route(H, I).
+route(H, J).
+route(H, K).
+route(L, M).
+route(L, P).
+route(M, N).
+route(M, T).
+route(N, O).
+route(N, U).
+route(P, Q).
+route(Q, R).
+route(Q, S).
+route(T, U).
+route(T, V).
+route(T, W).
+route(V, X).
+route(W, X).
+route(X, Y).
+route(X, AC).
+route(Y, Z).
+route(Z, AA).
+route(Z, AF).
+route(AF, AG).
+route(AF, AH).
+route(AG, AH).
+route(AH, AI).
+route(AI, AJ).
+route(AJ, AK).
+route(AK, AL).
+route(AL, AM).
+route(AM, AN).
+route(AN, AO).
+route(AO, AP).
+route(AP, AQ).
+route(AP, AV).
+route(AQ, AR).
+route(AR, AS).
+route(AS, AT).
+route(AT, AU).
+route(AU, AV).
+route(AV, AW).
+route(AW, AX).
+route(AX, AY).
+route(AY, AZ).
+route(AZ, BA).
+route(BA, BB).
+route(BB, BC).
+route(BC, BD).
+route(BD, BE).
+route(BE, BF).
+route(BF, BG).
+route(BG, BH).
+route(BH, BI).
+route(BI, BJ).
+route(BJ, BK).
+route(BK, BL).
+route(BL, BM).
+route(BM, BN).
+route(BN, BO).
+route(BO, BP).
+route(BP, BQ).
+route(BQ, BR).
+route(BR, BS).
+route(BS, BT).
+route(BT, BU).
+route(BU, BV).
+route(BV, BW).
+route(BW, BX).
+route(BX, BY).
+route(BY, BZ).
+route(BZ, CA).
+route(CA, CB).
+route(CB, CC).
+route(CC, CD).
+route(CD, CE).
+route(CE, CF).
+route(CF, CG).
+route(CG, CH).
+route(CH, CI).
+route(CI, CJ).
+route(CJ, CK).
+route(CK, CL).
+route(CL, CM).

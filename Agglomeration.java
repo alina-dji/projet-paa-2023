@@ -94,7 +94,12 @@ public class Agglomeration {
 	}
 	
 	private int getCityIndex(String city) {
-		int cityIndex = Arrays.binarySearch(citiesIndex, city);
+		int cityIndex = -1;
+		for(int i = 0; i < numberOfCities; i++) {
+	        if (citiesIndex[i].equals(city)) {
+	            cityIndex = i;
+	        }
+	    }
 		return cityIndex;
 	}
 	
