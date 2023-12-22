@@ -5,6 +5,10 @@ import java.io.IOException;
 // command line interface: all the messages destined to communicate with the user go here
 public class CLI {
 	
+	public static void inputMenu() {
+		
+	}
+	
 	public static void mainMenu(String path) {
 		Agglomeration agg = createAgglomeration(path);
 		System.out.println("1. Solve manually");

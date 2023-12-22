@@ -18,6 +18,7 @@ public class Agglomeration {
 		this.cities = cities;
 		this.routes = routes;
 		this.rechargeZones = rechargeZones;
+		//TODO check accessibility
 		this.numberOfCities = cities.size();
 		this.citiesIndex = createCitiesIndex();
 		this.routesMatrix = createRoutesMatrix();
@@ -88,6 +89,15 @@ public class Agglomeration {
 		return cityIndex;
 	}
 	
+	public String getCityName(int index) {
+		return citiesIndex[index];
+	}
+	
+	public boolean checkRechargeExists(String city) {
+		if(rechargeZones.contains(city)) return true;
+		else return false;
+	}
+	
 	private boolean[][] createRoutesMatrix() {
 		boolean[][] routesMatrix = new boolean[numberOfCities][numberOfCities];
 		Iterator<String> r = routes.iterator();
@@ -136,21 +146,14 @@ public class Agglomeration {
 	}
 	
 	public Set<String> getCities() {
-		//System.out.println("List of cities:");
-		//System.out.println(cities);
-		return cities;
-		
+		return cities;	
 	}
 	
 	public Set<String> getRechargeZones() {
-		//System.out.println("List of cities that have a charging point: ");
-		//System.out.println(rechargeZones);
 		return rechargeZones;
 	}
 	
 	public Set<String> getRoutes() {
-		//System.out.println("List of routes:");
-		//System.out.println(routes);
 		return routes;
 	}
 	

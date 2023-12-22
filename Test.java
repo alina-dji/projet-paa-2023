@@ -8,6 +8,5 @@ public class Test {
 		
 		if(args.length != 0) CLI.mainMenu(args[0]);
 		else CLI.mainMenu("");
-
     }
 }
